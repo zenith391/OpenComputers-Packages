@@ -1,0 +1,11 @@
+{
+	"midi" = {
+		files = {
+			"midi.lua" = "A:/Users/Shared/Libraries"
+		},
+		name = "MIDI Library",
+		description = "Useful for video games. Allow to play MIDI files using available drivers.",
+		authors = "zenith391",
+		version = 0.1
+	}
+}
