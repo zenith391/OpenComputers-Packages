@@ -3,9 +3,30 @@
 		files = {
 			"midi.lua" = "A:/Users/Shared/Libraries"
 		},
+		depedencies = {},
 		name = "MIDI Library",
 		description = "Useful for video games. Allow to play MIDI files using available drivers.",
 		authors = "zenith391",
 		version = 0.1
+	},
+	"benchmark-efi" = {
+		files = {
+			"benchmark-efi.lua" = "A:/.efi"
+		},
+		dependencies = {},
+		name = "BenchmarkEFI",
+		description = "Benchmark, requires OEFI.",
+		authors = "zenith391",
+		version = 1.0
+	},
+	"benchmark" = {
+		files = {
+			"benchmark.lua" = "A:/Fuchas/Binaries"
+		},
+		dependencies = {},
+		name = "Benchmark",
+		description = "Benchmark program for Fuchas.",
+		authors = "zenith391",
+		version = 1.0
 	}
 }
