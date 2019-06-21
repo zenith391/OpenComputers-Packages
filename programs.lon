@@ -1,17 +1,17 @@
 {
-	"midi" = {
+	midi = {
 		files = {
-			"midi.lua" = "A:/Users/Shared/Libraries"
+			["midi.lua"] = "A:/Users/Shared/Libraries"
 		},
-		depedencies = {},
+		dependencies = {},
 		name = "MIDI Library",
 		description = "Useful for video games. Allow to play MIDI files using available drivers.",
 		authors = "zenith391",
 		version = 0.1
 	},
-	"benchmark-efi" = {
+	benchmark-efi = {
 		files = {
-			"benchmark-efi.lua" = "A:/.efi"
+			["benchmark-efi.lua"] = "A:/.efi"
 		},
 		dependencies = {},
 		name = "BenchmarkEFI",
@@ -19,13 +19,23 @@
 		authors = "zenith391",
 		version = 1.0
 	},
-	"benchmark" = {
+	benchmark = {
 		files = {
-			"benchmark.lua" = "A:/Fuchas/Binaries"
+			["benchmark.lua"] = "A:/Fuchas/Binaries"
 		},
 		dependencies = {},
 		name = "Benchmark",
 		description = "Benchmark program for Fuchas.",
+		authors = "zenith391",
+		version = 1.0
+	},
+	efipack = {
+		files = {
+			["efipack.lua"] = "A:/Fuchas/Binaries"
+		},
+		dependencies = {},
+		name = "EFIPack",
+		description = "Allows to pack a Lua file to a EFI2 file",
 		authors = "zenith391",
 		version = 1.0
 	}
