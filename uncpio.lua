@@ -45,9 +45,9 @@ while true do
 	dent.gid = readint(2)
 	dent.nlink = readint(2)
 	dent.rdev = readint(2)
-	dent.mtime = bit32.bor(bit32.lshift(readint(2), 16) | readint(2))
+	dent.mtime = bit32.bor(bit32.lshift(readint(2), 16), readint(2))
 	dent.namesize = readint(2)
-	dent.filesize = bit32.bor(bit32.lshift(readint(2), 16) | readint(2))
+	dent.filesize = bit32.bor(bit32.lshift(readint(2), 16), readint(2))
 	local name = file:read(dent.namesize):sub(1, dent.namesize-1)
 	if (name == "TRAILER!!!") then break end
 	dent.name = name
