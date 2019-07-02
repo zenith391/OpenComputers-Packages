@@ -7,7 +7,8 @@
 		name = "MIDI Library",
 		description = "Useful for video games. Allow to play MIDI files using available drivers.",
 		authors = "zenith391",
-		version = 0.1
+		version = "0.1",
+		revision = 1
 	},
 	["benchmark-efi"] = {
 		files = {
@@ -17,7 +18,8 @@
 		name = "BenchmarkEFI",
 		description = "Benchmark, requires OEFI.",
 		authors = "zenith391",
-		version = 1.0
+		version = "1.0",
+		revision = 1
 	},
 	["benchmark"] = {
 		files = {
@@ -27,7 +29,8 @@
 		name = "Benchmark",
 		description = "Benchmark program for Fuchas.",
 		authors = "zenith391",
-		version = 1.0
+		version = "1.0",
+		revision = 1
 	},
 	["efipack"] = {
 		files = {
@@ -37,6 +40,7 @@
 		name = "EFIPack",
 		description = "Packs source folder (with app.lon and app.exe) into a EFI2 file",
 		authors = "zenith391",
-		version = 1.0
+		version = "1.0",
+		revision = 1
 	}
 }
