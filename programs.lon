@@ -42,5 +42,16 @@
 		authors = "zenith391",
 		version = "1.0",
 		revision = 1
+	},
+	["uncpio"] = {
+		files = {
+			["uncpio.lua"] = "A:/Fuchas/Binaries"
+		},
+		dependencies = {},
+		name = "uncpio",
+		description = "AdorableCatgirl's uncpio adapted for Fuchas",
+		authors = "AdorableCatgirl, zenith391",
+		version = "1.0",
+		revision = 1
 	}
 }
