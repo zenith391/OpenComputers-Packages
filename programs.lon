@@ -1,5 +1,5 @@
 {
-	midi = {
+	["midi"] = {
 		files = {
 			["midi.lua"] = "A:/Users/Shared/Libraries"
 		},
@@ -9,7 +9,7 @@
 		authors = "zenith391",
 		version = 0.1
 	},
-	benchmark-efi = {
+	["benchmark-efi"] = {
 		files = {
 			["benchmark-efi.lua"] = "A:/.efi"
 		},
@@ -19,7 +19,7 @@
 		authors = "zenith391",
 		version = 1.0
 	},
-	benchmark = {
+	["benchmark"] = {
 		files = {
 			["benchmark.lua"] = "A:/Fuchas/Binaries"
 		},
@@ -29,13 +29,13 @@
 		authors = "zenith391",
 		version = 1.0
 	},
-	efipack = {
+	["efipack"] = {
 		files = {
 			["efipack.lua"] = "A:/Fuchas/Binaries"
 		},
 		dependencies = {},
 		name = "EFIPack",
-		description = "Allows to pack a Lua file to a EFI2 file",
+		description = "Packs source folder (with app.lon and app.exe) into a EFI2 file",
 		authors = "zenith391",
 		version = 1.0
 	}
