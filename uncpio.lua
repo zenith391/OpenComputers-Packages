@@ -55,7 +55,7 @@ while true do
 	if (dent.namesize % 2 ~= 0) then
 		file:seek("cur", 1)
 	end
-	if (dent.mode & 32768 ~= 0) then
+	if (bit32.band(dent.mode, 32768) ~= 0) then
 		fwrite()
 	end
 	if (dent.filesize % 2 ~= 0) then

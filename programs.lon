@@ -51,7 +51,7 @@
 		name = "uncpio",
 		description = "AdorableCatgirl's uncpio adapted for Fuchas",
 		authors = "AdorableCatgirl, zenith391",
-		version = "1.0.2",
-		revision = 3
+		version = "1.0.3",
+		revision = 4
 	}
 }
