@@ -34,7 +34,7 @@
 	},
 	["efipack"] = {
 		files = {
-			["efipack.lua"] = "A:/Fuchas/Binaries"
+			["efipack.lua"] = "A:/Users/Shared"
 		},
 		dependencies = {},
 		name = "EFIPack",
@@ -45,7 +45,7 @@
 	},
 	["uncpio"] = {
 		files = {
-			["uncpio.lua"] = "A:/Fuchas/Binaries"
+			["uncpio.lua"] = "A:/Users/Shared"
 		},
 		dependencies = {},
 		name = "uncpio",
@@ -53,5 +53,16 @@
 		authors = "AdorableCatgirl, zenith391",
 		version = "1.0.3",
 		revision = 4
+	},
+	["ngenx"] = {
+		files = {
+			["ngenx.lua"] = "A:/Users/Shared"
+		},
+		dependencies = {},
+		name = "ngenx",
+		description = "Ngenx is a OHTP server. Use config to change network stack",
+		authors = "zenith391",
+		version = "1.0",
+		revision = 1
 	}
 }
