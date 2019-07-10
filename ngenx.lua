@@ -2,6 +2,8 @@
 package.loaded["network"] = nil
 
 local event = require("event")
+local network = require("network")
+local security = require("security")
 local args, options = require("shell").parse(...)
 
 local function getNgenx()
@@ -13,17 +15,20 @@ local function getNgenx()
 	return false
 end
 
+-- Server
+local function server()
+	
+end
+
 if args[1] == "start" then
+	security.requestPermission("*") -- root
 	local run = getNgenx()
 	if run then
 		print("Running")
 	else
 		-- The actual program thread
 		local p = shin32.newProcess("ngenx", function()
-			while true do
-				local _ = event.pull("modem_message")
-				print("Modem message!")
-			end
+			server()
 		end)
 		p:detach()
 		print("Started")

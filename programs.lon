@@ -64,5 +64,40 @@
 		authors = "zenith391",
 		version = "1.0",
 		revision = 1
+	},
+	["graphql"] = {
+		files = {
+			["graphql.lua"] = "A:/Fuchas/Binaries"
+		},
+		dependencies = {},
+		name = "GraphQL API",
+		description = "This API allows parsing and writing GitHub's GraphQL",
+		authors = "zenith391",
+		version = "1.0",
+		revision = 1
+	},
+	["github"] = {
+		files = {
+			["github.lua"] = "A:/Fuchas/Binaries"
+		},
+		dependencies = {
+			"graphql"
+		},
+		name = "GitHub API",
+		description = "The library allows using GitHub API for downloading, commiting repositories or pushing releases, etc.",
+		authors = "zenith391",
+		version = "1.0",
+		revision = 1
+	},
+	["minescape"] = {
+		files = {
+			["minescape.lua"] = "A:/Fuchas/Binaries"
+		},
+		dependencies = {},
+		name = "MineScape Internet Navigator",
+		description = "For now this only allow you to access OFFLINE .ohml files. With hyperlink support (OHML 1.0.1)",
+		authors = "zenith391",
+		version = "1.0",
+		revision = 1
 	}
 }
