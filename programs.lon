@@ -51,8 +51,8 @@
 		name = "uncpio",
 		description = "AdorableCatgirl's uncpio adapted for Fuchas",
 		authors = "AdorableCatgirl, zenith391",
-		version = "1.0.3",
-		revision = 4
+		version = "1.0.4",
+		revision = 5
 	},
 	["ngenx"] = {
 		files = {
