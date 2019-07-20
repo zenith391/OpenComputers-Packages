@@ -1,5 +1,5 @@
 local filesystem = require("filesystem")
-local args = {...}
+local args, options = require("shell").parse(...)
 local file = io.open(args[1], "rb")
 
 local dent = {
