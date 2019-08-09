@@ -60,7 +60,7 @@
 		},
 		dependencies = {},
 		name = "ngenx",
-		description = "Ngenx is a OHTP server. Use config to change network stack",
+		description = "Ngenx is an OHTP server. Use config to change network stack",
 		authors = "zenith391",
 		version = "1.0",
 		revision = 1
