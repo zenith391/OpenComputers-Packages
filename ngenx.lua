@@ -33,7 +33,9 @@ local function server()
 			for i=2,#lines do
 				local line = lines[i]
 				local lineSplit = string.split(line, ":")
-				properties[lineSplit[1]] = lineSplit[2]
+				if #lineSplit > 1 then
+					properties[lineSplit[1]] = lineSplit[2]
+				end
 			end
 		end
 

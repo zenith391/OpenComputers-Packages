@@ -60,6 +60,7 @@ local function resolve(tag)
 		elseif v.name == "br" then
 			cx = 1
 			cy = cy + 1
+			resolve(v)
 		else
 			resolve(v)
 			if v.name == "text" or v.name == "h1" or v.name == "h2" or v.name == "h3" or v.name == "h4" or v.name == "h5" then
@@ -76,9 +77,7 @@ local function render()
 	local fore = 0xFFFFFF
 	gpu.fill(1, 1, width, height, " ")
 	gpu.set(width/2-4, 1, "MineScape")
-	--gpu.set(2, 2, "|")
 	gpu.set(math.floor(width/2-(currentPath:len()/2)), 2, currentPath)
-	--gpu.set(width-1, 2, "|")
 	gpu.set(1, height, "Ctrl+C: Exit")
 	for _, obj in pairs(objects) do
 		if obj.type == "text" then

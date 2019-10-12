@@ -1,44 +1,11 @@
 {
-	["midi"] = {
-		files = {
-			["midi.lua"] = "A:/Users/Shared/Libraries"
-		},
-		dependencies = {},
-		name = "MIDI Library",
-		description = "Useful for video games. Allow to play MIDI files using available drivers.",
-		authors = "zenith391",
-		version = "0.1",
-		revision = 1
-	},
-	["benchmark-efi"] = {
-		files = {
-			["benchmark-efi.lua"] = "A:/.efi"
-		},
-		dependencies = {},
-		name = "BenchmarkEFI",
-		description = "Benchmark, requires OEFI.",
-		authors = "zenith391",
-		version = "1.0",
-		revision = 1
-	},
 	["benchmark"] = {
 		files = {
-			["benchmark.lua"] = "A:/Fuchas/Binaries"
+			["benchmark.lua"] = "A:/Users/Shared"
 		},
 		dependencies = {},
 		name = "Benchmark",
 		description = "Benchmark program for Fuchas.",
-		authors = "zenith391",
-		version = "1.0",
-		revision = 1
-	},
-	["efipack"] = {
-		files = {
-			["efipack.lua"] = "A:/Users/Shared"
-		},
-		dependencies = {},
-		name = "EFIPack",
-		description = "Packs source folder (with app.lon and app.exe) into a EFI2 file",
 		authors = "zenith391",
 		version = "1.0",
 		revision = 1
@@ -54,6 +21,17 @@
 		version = "1.0.4",
 		revision = 5
 	},
+	["bf"] = {
+		files = {
+			["bf.lua"] = "A:/Users/Shared"
+		},
+		dependencies = {},
+		name = "bf",
+		description = "Very simple Lua brainfuck implementation",
+		authors = "zenith391",
+		version = "1.0",
+		revision = 1
+	},
 	["ngenx"] = {
 		files = {
 			["ngenx.lua"] = "A:/Users/Shared"
@@ -65,28 +43,28 @@
 		version = "1.0",
 		revision = 1
 	},
-	["graphql"] = {
+	["libvenus"] = {
 		files = {
-			["graphql.lua"] = "A:/Fuchas/Binaries"
+			["libvenus.lua"] = "A:/Users/Shared/Libraries"
 		},
 		dependencies = {},
-		name = "GraphQL API",
-		description = "This API allows parsing and writing GitHub's GraphQL",
+		name = "libvenus",
+		description = "Library to manage Venus (VCS) objects and directories.",
 		authors = "zenith391",
-		version = "1.0",
+		version = "0.1-UNUSABLE",
 		revision = 1
 	},
-	["github"] = {
+	["venus"] = {
 		files = {
-			["github.lua"] = "A:/Fuchas/Binaries"
+			["venus.lua"] = "A:/Users/Shared"
 		},
 		dependencies = {
-			"graphql"
+			"libvenus"
 		},
-		name = "GitHub API",
-		description = "The library allows using GitHub API for downloading, commiting repositories or pushing releases, etc.",
+		name = "Venus",
+		description = "Simplified equivalent of Git for OC. (so not compatible with Git of course)",
 		authors = "zenith391",
-		version = "1.0",
+		version = "0.1-UNUSABLE",
 		revision = 1
 	},
 	["minescape"] = {
