@@ -73,9 +73,9 @@
 		},
 		dependencies = {},
 		name = "MineScape Internet Navigator",
-		description = "For now this only allow you to access OFFLINE .ohml files. With hyperlink support (OHML 1.0.1)",
+		description = "For now this only allow you to access OFFLINE .ohml files. With hyperlink support (OHML 1.0.1). Supprts LuaWeb script",
 		authors = "zenith391",
-		version = "1.0",
-		revision = 1
+		version = "0.9",
+		revision = 2
 	}
 }
