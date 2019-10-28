@@ -44,9 +44,9 @@ local function objectWrapper(obj)
 					obj.drawHandler("fill", x, y, width, height, char)
 				end
 			end,
-			setBackground = function(color)
+			setBackground = function(color, pal)
 				if obj.drawHandler ~= nil then
-					obj.drawHandler("setbg", color)
+					obj.drawHandler("setbg", color, pal)
 				end
 			end,
 			setForeground = function(color)
@@ -81,7 +81,21 @@ local function makeScriptEnv()
 				end
 			end
 		},
-		math = math
+		math = math,
+		coroutine = coroutine,
+		string = string,
+		table = table,
+		bit32 = bit32,
+		tostring = tostring,
+		tonumber = tonumber,
+		ipairs = ipairs,
+		load = load,
+		next = next,
+		pairs = pairs,
+		pcall = pcall, xpcall = xpcall,
+		select=  select,
+		type = type,
+		_VERSION = _VERSION
 	}
 end
 
@@ -100,7 +114,7 @@ local function loadScripts(tag)
 			if not chunk then
 				error(err)
 			end
-			local process = require("shin32").newProcess("luaweb-script-" .. scriptId, chunk)
+			local process = require("tasks").newProcess("luaweb-script-" .. scriptId, chunk)
 			table.insert(scriptProcesses, process)
 			scriptId = scriptId + 1
 		else
@@ -208,10 +222,14 @@ local function render()
 					if x > obj.x+obj.width then x = obj.x+obj.width end
 					if y < obj.y then y = obj.y end
 					if y > obj.y+obj.height then y = obj.y+obj.height end
-					if width < 1 then width = 1 end
-					--if x+width > obj.width then width = obj.width-x end
-					if height < 1 then heigth = 1 end
-					--if y+height > obj.height then height = obj.height-y end
+					if type(width) == "number" then
+						if width < 1 then width = 1 end
+						--if x+width > obj.width then width = obj.width-x end
+					end
+					if type(width) == "number" then
+						if height < 1 then heigth = 1 end
+						--if y+height > obj.height then height = obj.height-y end
+					end
 					if op == "text" then
 						gpu.setBackground(bg)
 						gpu.setForeground(fg)

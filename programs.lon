@@ -16,10 +16,10 @@
 		},
 		dependencies = {},
 		name = "uncpio",
-		description = "AdorableCatgirl's uncpio adapted for Fuchas",
+		description = "AdorableCatgirl uncpio ported to Fuchas",
 		authors = "AdorableCatgirl, zenith391",
-		version = "1.0.4",
-		revision = 5
+		version = "1.1",
+		revision = 6
 	},
 	["bf"] = {
 		files = {
@@ -34,7 +34,8 @@
 	},
 	["ngenx"] = {
 		files = {
-			["ngenx.lua"] = "A:/Users/Shared"
+			["ngenx.lua"] = "A:/Users/Shared",
+			fuchas = "0.5"
 		},
 		dependencies = {},
 		name = "ngenx",
@@ -45,7 +46,8 @@
 	},
 	["libvenus"] = {
 		files = {
-			["libvenus.lua"] = "A:/Users/Shared/Libraries"
+			["libvenus.lua"] = "A:/Users/Shared/Libraries",
+			fuchas = "0.4"
 		},
 		dependencies = {},
 		name = "libvenus",
@@ -59,7 +61,8 @@
 			["venus.lua"] = "A:/Users/Shared"
 		},
 		dependencies = {
-			"libvenus"
+			"libvenus",
+			fuchas = "0.4"
 		},
 		name = "Venus",
 		description = "Simplified equivalent of Git for OC. (so not compatible with Git of course)",
@@ -69,9 +72,11 @@
 	},
 	["minescape"] = {
 		files = {
-			["minescape.lua"] = "A:/Fuchas/Binaries"
+			["minescape.lua"] = "A:/Users/Shared"
 		},
-		dependencies = {},
+		dependencies = {
+			["fuchas"] = "0.5.*"
+		},
 		name = "MineScape Internet Navigator",
 		description = "For now this only allow you to access OFFLINE .ohml files. With hyperlink support (OHML 1.0.1). Supprts LuaWeb script",
 		authors = "zenith391",

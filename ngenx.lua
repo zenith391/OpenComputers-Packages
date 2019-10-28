@@ -4,11 +4,12 @@ package.loaded["network"] = nil
 local event = require("event")
 local network = require("network")
 local security = require("security")
+local tasks = require("tasks")
 local args, options = require("shell").parse(...)
 
 local function getNgenx()
-	for _, v in pairs(shin32.getProcesses()) do
-		if v.name == "ngenx-daemon" then
+	for _, v in pairs(tasks.getProcesses()) do
+		if v.name == "ngenx" then
 			return true, v
 		end
 	end
@@ -61,7 +62,7 @@ if args[1] == "start" then
 		print("Running")
 	else
 		-- The actual program thread
-		local p = shin32.newProcess("ngenx", function()
+		local p = tasks.newProcess("ngenx", function()
 			server()
 		end)
 		p:detach()

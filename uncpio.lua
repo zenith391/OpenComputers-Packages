@@ -1,6 +1,19 @@
 local filesystem = require("filesystem")
 local args, options = require("shell").parse(...)
-local file = io.open(args[1], "rb")
+
+if #args < 1 then
+	io.stderr:write("Usage: uncpio <file>\n")
+	return
+end
+
+local resolve = require("shell").resolve(args[1])
+
+if not resolve then
+	io.stderr:write("No such file: " .. args[1] .. "\n")
+	return
+end
+
+local file = io.open(resolve, "rb")
 
 local dent = {
 	magic = 0,
@@ -27,7 +40,7 @@ end
 local function fwrite()
 	local dir = dent.name:match("(.+)/.*%.?.+")
 	if (dir) then
-		filesystem.makeDirectory("A:/" .. os.getenv("PWD") .. "/" .. dir)
+		filesystem.makeDirectory(os.getenv("PWD_DRIVE") .. ":/" .. os.getenv("PWD") .. "/" .. dir)
 	end
 	local hand = io.open(dent.name, "w")
 	hand:write(file:read(dent.filesize))
