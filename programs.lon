@@ -34,10 +34,11 @@
 	},
 	["ngenx"] = {
 		files = {
-			["ngenx.lua"] = "A:/Users/Shared",
+			["ngenx.lua"] = "A:/Users/Shared"
+		},
+		dependencies = {
 			fuchas = "0.5"
 		},
-		dependencies = {},
 		name = "ngenx",
 		description = "Ngenx is an OHTP server. Use config to change network stack",
 		authors = "zenith391",
@@ -46,10 +47,11 @@
 	},
 	["libvenus"] = {
 		files = {
-			["libvenus.lua"] = "A:/Users/Shared/Libraries",
+			["libvenus.lua"] = "A:/Users/Shared/Libraries"
+		},
+		dependencies = {
 			fuchas = "0.4"
 		},
-		dependencies = {},
 		name = "libvenus",
 		description = "Library to manage Venus (VCS) objects and directories.",
 		authors = "zenith391",
