@@ -74,7 +74,8 @@
 	},
 	["minescape"] = {
 		files = {
-			["minescape.lua"] = "A:/Users/Shared"
+			["minescape.lua"] = "A:/Users/Shared",
+			["geeko.lua"] = "A:/Users/Shared/Libraries"
 		},
 		dependencies = {
 			["fuchas"] = "0.5.*"
@@ -82,7 +83,7 @@
 		name = "MineScape Internet Navigator",
 		description = "For now this only allow you to access OFFLINE .ohml files. With hyperlink support (OHML 1.0.1). Supprts LuaWeb script",
 		authors = "zenith391",
-		version = "0.9",
-		revision = 2
+		version = "0.91",
+		revision = 3
 	}
 }

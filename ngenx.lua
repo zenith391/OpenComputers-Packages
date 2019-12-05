@@ -56,15 +56,20 @@ local function server()
 end
 
 if args[1] == "start" then
-	security.requestPermission("*") -- root
 	local run = getNgenx()
 	if run then
 		print("Running")
 	else
 		-- The actual program thread
+		security.requestPermission("*")
+		tasks.getCurrentProcess().permissionGrant = function()
+			return true
+		end
 		local p = tasks.newProcess("ngenx", function()
+			security.requestPermission("*")
 			server()
 		end)
+		coroutine.yield()
 		p:detach()
 		print("Started")
 	end
