@@ -1,4 +1,4 @@
--- Ngenx OCranet server (formely Minehe)
+-- Epocha OCranet server (formely Ngenx which was formely Minehe)
 package.loaded["network"] = nil
 
 local event = require("event")
@@ -7,9 +7,9 @@ local security = require("security")
 local tasks = require("tasks")
 local args, options = require("shell").parse(...)
 
-local function getNgenx()
+local function service()
 	for _, v in pairs(tasks.getProcesses()) do
-		if v.name == "ngenx" then
+		if v.name == "epocha-service" then
 			return true, v
 		end
 	end
@@ -21,10 +21,10 @@ local function server()
 	while true do
 		local socket = network.listen(80, "modem")
 		local request = socket:read()
-		local lines = ifOr(string.endsWith("\n"), string.split(request, "\n"), {request})
+		local lines = ifOr(string.endsWith(request, "\n"), string.split(request, "\n"), {request})
 
 		local header = lines[1]
-		local headerSplit = string.split(header)
+		local headerSplit = string.split(header, "\n")
 		local properties = {}
 		if headerSplit[1] ~= "OHTP/1.0" or headerSplit[2] ~= "GET" then
 			socket:write("403")
@@ -56,7 +56,7 @@ local function server()
 end
 
 if args[1] == "start" then
-	local run = getNgenx()
+	local run = service()
 	if run then
 		print("Running")
 	else
@@ -65,19 +65,19 @@ if args[1] == "start" then
 		tasks.getCurrentProcess().permissionGrant = function()
 			return true
 		end
-		local p = tasks.newProcess("ngenx", function()
+		local p = tasks.newProcess("epocha-service", function()
 			security.requestPermission("*")
 			server()
 		end)
 		coroutine.yield()
 		p:detach()
-		print("Started")
+		print("'epocha-service' Started")
 	end
 	return
 end
 
 if args[1] == "stop" then
-	local run, p = getNgenx()
+	local run, p = service()
 	if run then
 		p:kill()
 		print("Stopped")

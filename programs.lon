@@ -1,7 +1,8 @@
 {
+	["_version"] = 2,
 	["benchmark"] = {
 		files = {
-			["benchmark.lua"] = "A:/Users/Shared"
+			["benchmark.lua"] = "A:/Users/Shared/benchmark.lua"
 		},
 		dependencies = {},
 		name = "Benchmark",
@@ -12,7 +13,7 @@
 	},
 	["uncpio"] = {
 		files = {
-			["uncpio.lua"] = "A:/Users/Shared"
+			["uncpio.lua"] = "A:/Users/Shared/uncpio.lua"
 		},
 		dependencies = {},
 		name = "uncpio",
@@ -23,7 +24,7 @@
 	},
 	["bf"] = {
 		files = {
-			["bf.lua"] = "A:/Users/Shared"
+			["bf.lua"] = "A:/Users/Shared/bf.lua"
 		},
 		dependencies = {},
 		name = "bf",
@@ -32,22 +33,22 @@
 		version = "1.0",
 		revision = 1
 	},
-	["ngenx"] = {
+	["epocha"] = {
 		files = {
-			["ngenx.lua"] = "A:/Users/Shared"
+			["epocha.lua"] = "A:/Users/Shared/epocha.lua"
 		},
 		dependencies = {
 			fuchas = "0.5"
 		},
-		name = "ngenx",
-		description = "Ngenx is an OHTP server. Use config to change network stack",
+		name = "epocha",
+		description = "Epocha is an OHTP server. Use config to change network stack",
 		authors = "zenith391",
 		version = "1.0",
 		revision = 1
 	},
 	["libvenus"] = {
 		files = {
-			["libvenus.lua"] = "A:/Users/Shared/Libraries"
+			["libvenus.lua"] = "A:/Users/Shared/Libraries/libvenus.lua"
 		},
 		dependencies = {
 			fuchas = "0.4"
@@ -60,7 +61,7 @@
 	},
 	["venus"] = {
 		files = {
-			["venus.lua"] = "A:/Users/Shared"
+			["venus.lua"] = "A:/Users/Shared/venus.lua"
 		},
 		dependencies = {
 			"libvenus",
@@ -74,14 +75,14 @@
 	},
 	["minescape"] = {
 		files = {
-			["minescape.lua"] = "A:/Users/Shared",
-			["geeko.lua"] = "A:/Users/Shared/Libraries"
+			["minescape/minescape.lua"] = "A:/Users/Shared/minescape.lua",
+			["minescape/geeko.lua"] = "A:/Users/Shared/Libraries/geeko.lua"
 		},
 		dependencies = {
 			["fuchas"] = "0.5.*"
 		},
 		name = "MineScape Internet Navigator",
-		description = "For now this only allow you to access OFFLINE .ohml files. With hyperlink support (OHML 1.0.1). Supprts LuaWeb script",
+		description = "For now this only allow you to access OFFLINE .ohml files. With hyperlink support (OHML 1.0.1). Supports LuaWeb script",
 		authors = "zenith391",
 		version = "0.91",
 		revision = 3

@@ -5,7 +5,6 @@ package.loaded["geeko"] = nil
 local shell = require("shell")
 local event = require("event")
 local geeko = require("geeko")
-local gpu = component.gpu
 local width, height = gpu.getResolution()
 local args, options = shell.parse(...)
 
