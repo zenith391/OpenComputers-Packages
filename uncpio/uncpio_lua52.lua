@@ -1,3 +1,7 @@
+-- uncpio by Adorable-Catgirl
+-- for Lua 5.2
+-- ported to Fuchas and Lua 5.2 by zenith391
+
 local filesystem = require("filesystem")
 local args, options = require("shell").parse(...)
 

@@ -15,6 +15,14 @@
 		files = {
 			["uncpio.lua"] = "A:/Users/Shared/uncpio.lua"
 		},
+		archFiles = {
+			["Lua 5.2"] = {
+				["uncpio/uncpio_lua52.lua"] = "A:/Users/Shared/uncpio.lua"
+			},
+			["Lua 5.3"] = {
+				["uncpio/uncpio_lua53.lua"] = "A:/Users/Shared/uncpio.lua"
+			}
+		}
 		dependencies = {},
 		name = "uncpio",
 		description = "AdorableCatgirl uncpio ported to Fuchas",
@@ -86,5 +94,18 @@
 		authors = "zenith391",
 		version = "0.91",
 		revision = 3
+	},
+	["stardust"] = {
+		files = {
+			["stardust/stardust.lua"] = "A:/Users/Shared/stardust.lua"
+		},
+		dependencies = {
+			"fuchas" = "0.5.*"
+		},
+		name = "Stardust",
+		description = "Compatibility layer between OpenOS and Fuchas programs",
+		authors = "zenith391",
+		version = "0.0.1",
+		revision = 0
 	}
 }
