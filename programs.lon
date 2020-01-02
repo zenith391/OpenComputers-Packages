@@ -22,7 +22,7 @@
 			["Lua 5.3"] = {
 				["uncpio/uncpio_lua53.lua"] = "A:/Users/Shared/uncpio.lua"
 			}
-		}
+		},
 		dependencies = {},
 		name = "uncpio",
 		description = "AdorableCatgirl uncpio ported to Fuchas",
