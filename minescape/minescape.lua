@@ -5,6 +5,7 @@ package.loaded["geeko"] = nil
 local shell = require("shell")
 local event = require("event")
 local geeko = require("geeko")
+local gpu = require("driver").gpu
 local width, height = gpu.getResolution()
 local args, options = shell.parse(...)
 
@@ -16,20 +17,20 @@ end
 
 local currentPath = args[1]
 
-geeko.browser = {"Minescape", "Zenith391 & Co.", "0.91"}
+geeko.browser = {"Minescape", "Zenith391 & Co.", "0.92"}
 geeko.log = function(obj)
-	gpu.set(1, 1, "Geeko] " .. tostring(obj))
+	gpu.drawText(1, 1, "Geeko] " .. tostring(obj))
 end
 
 local function render()
-	gpu.setBackground(0x000000)
+	gpu.setColor(0x000000)
 	gpu.setForeground(0xFFFFFF)
 	local fore = 0xFFFFFF
 	gpu.fill(1, 1, width, height, " ")
-	gpu.set(width/2-4, 1, "MineScape")
-	gpu.set(math.floor(width/2-(currentPath:len()/2)), 2, currentPath)
-	gpu.set(1, height, "Ctrl+C: Exit")
-	gpu.set(14, height, "| Ctrl+T: Change URL")
+	gpu.drawText(width/2-4, 1, "MineScape")
+	gpu.drawText(math.floor(width/2-(currentPath:len()/2)), 2, currentPath)
+	gpu.drawText(1, height, "Ctrl+C: Exit")
+	gpu.drawText(14, height, "| Ctrl+T: Change URL")
 	for _, obj in pairs(geeko.objects) do
 		local ox, oy = obj.x + xOffset, obj.y + yOffset
 		if oy > 3 - obj.height and ox < width and oy < height then
@@ -38,7 +39,7 @@ local function render()
 					gpu.setForeground(0xFFFFFF)
 					fore = 0xFFFFFF
 				end
-				gpu.set(ox, oy, obj.text)
+				gpu.drawText(ox, oy, obj.text)
 			end
 			if obj.type == "hyperlink" then
 				if obj.trigerred then
@@ -52,7 +53,7 @@ local function render()
 						fore = 0x2020FF
 					end
 				end
-				gpu.set(ox, oy, obj.text)
+				gpu.drawText(ox, oy, obj.text)
 			end
 			if obj.type == "canvas" then
 				if obj.drawHandler == nil then
@@ -75,13 +76,10 @@ local function render()
 							--if y+height > obj.height then height = obj.height-y end
 						end
 						if op == "text" then
-							gpu.setBackground(bg)
-							gpu.setForeground(fg)
-							gpu.set(x, y, pack[4])
+							gpu.drawText(x, y, pack[4], fg, bg)
 						end
 						if op == "fill" then
-							gpu.setBackground(bg)
-							gpu.fill(x, y, width, height, pack[6])
+							gpu.fill(x, y, width, height, pack[6], bg)
 						end
 						if op == "setbg" then
 							bg = pack[2]
