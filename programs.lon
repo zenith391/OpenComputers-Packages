@@ -100,7 +100,7 @@
 			["stardust/stardust.lua"] = "A:/Users/Shared/stardust.lua"
 		},
 		dependencies = {
-			"fuchas" = "0.5.*"
+			["fuchas"] = "0.5.*"
 		},
 		name = "Stardust",
 		description = "Compatibility layer between OpenOS and Fuchas programs",
