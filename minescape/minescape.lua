@@ -26,7 +26,7 @@ local function render()
 	gpu.setColor(0x000000)
 	gpu.setForeground(0xFFFFFF)
 	local fore = 0xFFFFFF
-	gpu.fill(1, 1, width, height, " ")
+	gpu.fill(1, 1, width, height)
 	gpu.drawText(width/2-4, 1, "MineScape")
 	gpu.drawText(math.floor(width/2-(currentPath:len()/2)), 2, currentPath)
 	gpu.drawText(1, height, "Ctrl+C: Exit")
@@ -79,7 +79,8 @@ local function render()
 							gpu.drawText(x, y, pack[4], fg, bg)
 						end
 						if op == "fill" then
-							gpu.fill(x, y, width, height, pack[6], bg)
+							gpu.setColor(bg)
+							gpu.fillChar(x, y, width, height, pack[6])
 						end
 						if op == "setbg" then
 							bg = pack[2]
@@ -146,6 +147,5 @@ while true do
 end
 
 geeko.clean()
-gpu.setBackground(0x000000)
 gpu.setForeground(0xFFFFFF)
-gpu.fill(1, 1, width, height, " ")
+gpu.fill(1, 1, width, height, 0)
