@@ -91,7 +91,7 @@
 		authors = "zenith391",
 		version = "0.92",
 		revision = 4
-	}
+	},
 	["minescape"] = {
 		files = {
 			["minescape/minescape.lua"] = "{userpath}/Binaries/minescape.lua",
