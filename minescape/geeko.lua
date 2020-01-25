@@ -2,34 +2,43 @@
 -- OHML v1.0.1 compliant engine
 -- Partially compatible with OHML v1.0.2 
 
-local geeko = {}
+local geeko = {
+	-- The OS-independent filesystem API
+	fs = nil,
+	version = "0.2",
+	browser = {"Unknown (name)", "Unknown (publisher or developer)", "1.0"},
+	thread = nil,
+	renderCallback = nil,
+	log = nil,
+	scriptEnv = {},
+	runningScripts = {},
+	objects = {},
+	currentPath = "ohtp://geeko.com",
+	os = "GeekOS/1.0"
+}
 local cx, cy = 1, 1
 local scriptId = 1
-
--- The OS-independent filesystem API
-geeko.fs = nil
-geeko.version = "1.0"
-geeko.browser = {"Unknown (name)", "Unknown (code name)", "1.0"}
-geeko.thread = nil
-geeko.renderCallback = nil
-geeko.log = nil
-geeko.scriptEnv = {}
-geeko.runningScripts = {}
-geeko.objects = {}
-geeko.currentPath = "ohtp://geeko.com/"
-geeko.os = "GeekOS/1.0"
 
 -- Filesystem wrapper for OSes that exports a standard Lua "io" API.
 local function fsLuaIO()
 	return {
 		readAll = function(path)
 			local file = io.open(path, "r")
-			local text = file:read("a")
+			local text = file:read("*a")
 			file:close()
 			return text
 		end,
 		parent = function(path)
 			return require("filesystem").path(path)
+		end
+	}
+end
+
+local function ccIO() -- yup, Geeko supports ComputerCraft alongside OpenComputers
+	return {
+		readAll = fsLuaIO().readAll, -- same use of standard io library
+		parent = function(path)
+			return fs.getDir(path)
 		end
 	}
 end
@@ -63,13 +72,19 @@ local function objectWrapper(obj)
 	return nil
 end
 
+local function log(name, level, text)
+	if geeko.log ~= nil and type(geeko.log) == "function" then
+		geeko.log(name, level, tostring(text))
+	end
+end
+
 local function makeScriptEnv()
 	geeko.scriptEnv = {
 		_G = geeko.scriptEnv,
 		sleep = os.sleep,
 		navigator = {
 			appName = geeko.browser[1],
-			appCodeName = geeko.browser[2],
+			appCreator = geeko.browser[2],
 			engine = "Geeko",
 			engineVersion = geeko.version,
 			appVersion = geeko.browser[3],
@@ -85,6 +100,20 @@ local function makeScriptEnv()
 				end
 			end
 		},
+		console = {
+			info = function(text)
+				info("script", "info", text)
+			end,
+			warn = function(text)
+				info("script", "warn", text)
+			end,
+			error = function(text)
+				info("script", "error", text)
+			end,
+			log = function(text)
+				info("script", "log", text)
+			end
+		}
 		math = math,
 		coroutine = coroutine,
 		string = string,
@@ -96,8 +125,9 @@ local function makeScriptEnv()
 		load = load,
 		next = next,
 		pairs = pairs,
-		pcall = pcall, xpcall = xpcall,
-		select=  select,
+		pcall = pcall,
+		xpcall = xpcall,
+		select = select,
 		type = type,
 		_VERSION = _VERSION
 	}
@@ -111,20 +141,14 @@ function geeko.clean()
 	end
 end
 
-local function log(obj)
-	if geeko.log ~= nil and type(geeko.log) == "function" then
-		geeko.log(obj)
-	end
-end
-
 local function loadScripts(tag)
 	for _, v in pairs(tag.childrens) do
 		if v.name == "#text" and v.parent.name == "script" and (not v.parent.attr.lang or v.parent.attr.lang == "application/lua") then
-			local chunk, err = load(v.unformattedContent, "web-script", "t", geeko.scriptEnv)
+			local chunk, err = load(v.content, "web-script", "t", geeko.scriptEnv)
 			if not chunk then
 				error(err)
 			end
-			local process = require("tasks").newProcess("luaweb-script-" .. scriptId, chunk)
+			local process = require("tasks").newProcess("luaweb-script-" .. scriptId, chunk) -- TODO make it cross-compatible
 			table.insert(geeko.runningScripts, process)
 			scriptId = scriptId + 1
 		else
@@ -158,7 +182,7 @@ function geeko.read(tag)
 					tag = v.parent
 				})
 			elseif v.parent.name == "script" then
-				-- do nothing
+				-- handled by loadScripts
 			else
 				table.insert(geeko.objects, {
 					type = "text",
@@ -197,7 +221,12 @@ end
 function geeko.url(link)
 	local schemeEnd, pathStart = link:find("://", 1, true)
 	local scheme, path = "", ""
-
+	if not schemeEnd then
+		return {
+			scheme = nil,
+			path = link
+		}
+	end
 	return {
 		scheme = link:sub(1, schemeEnd - 1),
 		path = link:sub(pathStart + 1, link:len())
@@ -205,7 +234,7 @@ function geeko.url(link)
 end
 
 function geeko.go(link)
-	local schemeEnd, pathStart = link:find("://", 1, true)
+	local schemeEnd = link:find("://", 1, true)
 	local url, text = geeko.url(geeko.currentPath), ""
 
 	if schemeEnd ~= nil then
@@ -224,7 +253,7 @@ function geeko.go(link)
 		text = geeko.fs.readAll(geeko.url(geeko.currentPath).path:sub(2))
 	end
 
-	parsed = require("xml").parse(text)
+	parsed = require("xml").parse(text) -- wouldn't work on CC, to fix
 	cx = 1
 	cy = 1
 	geeko.objects = {}
@@ -233,7 +262,7 @@ function geeko.go(link)
 	if geeko.renderCallback ~= nil and type(geeko.renderCallback) == "function" then
 		geeko.renderCallback()
 	else
-		log("Warn: Render callback is not defined")
+		log("geeko", "warn", "render callback is not defined")
 	end
 	loadScripts(parsed)
 end
@@ -243,6 +272,8 @@ if _OSDATA then -- Fuchas
 	geeko.fs = fsLuaIO()
 elseif _OSVERSION then -- OpenOS
 	geeko.fs = fsLuaIO()
+elseif rednet then
+	geeko.fs = ccIO()
 end
 
 -- Geeko init

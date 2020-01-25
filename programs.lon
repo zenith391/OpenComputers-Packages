@@ -2,7 +2,7 @@
 	["_version"] = 2,
 	["benchmark"] = {
 		files = {
-			["benchmark.lua"] = "A:/Users/Shared/benchmark.lua"
+			["benchmark.lua"] = "{userpath}/Binaries/benchmark.lua"
 		},
 		dependencies = {},
 		name = "Benchmark",
@@ -13,14 +13,14 @@
 	},
 	["uncpio"] = {
 		files = {
-			["uncpio.lua"] = "A:/Users/Shared/uncpio.lua"
+			["uncpio.lua"] = "{userpath}/Binaries/uncpio.lua"
 		},
 		archFiles = {
 			["Lua 5.2"] = {
-				["uncpio/uncpio_lua52.lua"] = "A:/Users/Shared/uncpio.lua"
+				["uncpio/uncpio_lua52.lua"] = "A:/Users/Shared/Binaries/uncpio.lua"
 			},
 			["Lua 5.3"] = {
-				["uncpio/uncpio_lua53.lua"] = "A:/Users/Shared/uncpio.lua"
+				["uncpio/uncpio_lua53.lua"] = "A:/Users/Shared/Binaries/uncpio.lua"
 			}
 		},
 		dependencies = {},
@@ -32,7 +32,7 @@
 	},
 	["bf"] = {
 		files = {
-			["bf.lua"] = "A:/Users/Shared/bf.lua"
+			["bf.lua"] = "{userpath}/Binaries/bf.lua"
 		},
 		dependencies = {},
 		name = "bf",
@@ -43,7 +43,7 @@
 	},
 	["epocha"] = {
 		files = {
-			["epocha.lua"] = "A:/Users/Shared/epocha.lua"
+			["epocha.lua"] = "{userpath}/Binaries/epocha.lua"
 		},
 		dependencies = {
 			fuchas = "0.5"
@@ -56,7 +56,7 @@
 	},
 	["libvenus"] = {
 		files = {
-			["libvenus.lua"] = "A:/Users/Shared/Libraries/libvenus.lua"
+			["libvenus.lua"] = "{userpath}/Libraries/libvenus.lua"
 		},
 		dependencies = {
 			fuchas = "0.4"
@@ -69,7 +69,7 @@
 	},
 	["venus"] = {
 		files = {
-			["venus.lua"] = "A:/Users/Shared/venus.lua"
+			["venus.lua"] = "{userpath}/Binaries/venus.lua"
 		},
 		dependencies = {
 			"libvenus",
@@ -81,10 +81,21 @@
 		version = "0.1-UNUSABLE",
 		revision = 1
 	},
+	["geeko"] = {
+		files = {
+			["minescape/geeko.lua"] = "{userpath}/Libraries/geeko.lua"
+		},
+		dependencides = {},
+		name = "MineScape Internet Navigator",
+		description = "For now this only allow you to access OFFLINE .ohml files. With hyperlink support (OHML 1.0.1). Supports LuaWeb script",
+		authors = "zenith391",
+		version = "0.92",
+		revision = 4
+	}
 	["minescape"] = {
 		files = {
-			["minescape/minescape.lua"] = "A:/Users/Shared/minescape.lua",
-			["minescape/geeko.lua"] = "A:/Users/Shared/Libraries/geeko.lua"
+			["minescape/minescape.lua"] = "{userpath}/Binaries/minescape.lua",
+			["minescape/geeko.lua"] = "{userpath}/Libraries/geeko.lua"
 		},
 		dependencies = {
 			["fuchas"] = "0.5.*"
@@ -97,7 +108,7 @@
 	},
 	["stardust"] = {
 		files = {
-			["stardust/stardust.lua"] = "A:/Users/Shared/stardust.lua"
+			["stardust/stardust.lua"] = "{userpath}/Binaries/stardust.lua"
 		},
 		dependencies = {
 			["fuchas"] = "0.5.*"

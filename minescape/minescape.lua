@@ -18,8 +18,8 @@ end
 local currentPath = args[1]
 
 geeko.browser = {"Minescape", "Zenith391 & Co.", "0.92"}
-geeko.log = function(obj)
-	gpu.drawText(1, 1, "Geeko] " .. tostring(obj))
+geeko.log = function(name, level, text)
+	gpu.drawText(1, 1, name .. " [" .. level .. "] " .. text)
 end
 
 local function render()

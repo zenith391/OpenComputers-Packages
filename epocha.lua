@@ -87,4 +87,4 @@ if args[1] == "stop" then
 	return
 end
 
-io.stderr:write("Usage: ngenx <start/stop>\n")
+io.stderr:write("Usage: epocha <start/stop>\n")
