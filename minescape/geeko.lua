@@ -113,7 +113,7 @@ local function makeScriptEnv()
 			log = function(text)
 				info("script", "log", text)
 			end
-		}
+		},
 		math = math,
 		coroutine = coroutine,
 		string = string,
