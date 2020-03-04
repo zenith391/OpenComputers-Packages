@@ -2,6 +2,7 @@
 -- Uses Geeko (formely Minescape's engine)
 
 package.loaded["geeko"] = nil
+package.loaded["xml"] = nil
 local shell = require("shell")
 local event = require("event")
 local geeko = require("geeko")

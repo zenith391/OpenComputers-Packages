@@ -112,16 +112,16 @@ local function makeScriptEnv()
 		},
 		console = {
 			info = function(text)
-				info("script", "info", text)
+				log("script", "info", text)
 			end,
 			warn = function(text)
-				info("script", "warn", text)
+				log("script", "warn", text)
 			end,
 			error = function(text)
-				info("script", "error", text)
+				log("script", "error", text)
 			end,
 			log = function(text)
-				info("script", "log", text)
+				log("script", "log", text)
 			end
 		},
 		math = math,
@@ -156,7 +156,7 @@ local function loadScripts(tag)
 		if v.name == "#text" and v.parent.name == "script" and (not v.parent.attr.lang or v.parent.attr.lang == "application/lua") then
 			local chunk, err = load(v.content, "web-script", "t", geeko.scriptEnv)
 			if not chunk then
-				error(err)
+				log("geeko", "error", "could not load web script")
 			end
 			local process = require("tasks").newProcess("luaweb-script-" .. scriptId, chunk) -- TODO make it cross-compatible
 			table.insert(geeko.runningScripts, process)
@@ -226,6 +226,9 @@ function geeko.read(tag)
 					end
 				end
 			else
+				if v.content:sub(1, 2) == "--" then
+					log("geeko", "debug", v.parent.name)
+				end
 				table.insert(geeko.objects, {
 					type = "text",
 					x = cx,
