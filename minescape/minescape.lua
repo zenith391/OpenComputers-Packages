@@ -8,6 +8,8 @@ local geeko = require("geeko")
 local gpu = require("driver").gpu
 local width, height = gpu.getResolution()
 local args, options = shell.parse(...)
+local console = {}
+local consoleOpened = false
 
 local xOffset, yOffset = 1, 2
 
@@ -16,11 +18,6 @@ if not args[1] then
 end
 
 local currentPath = args[1]
-
-geeko.browser = {"Minescape", "Zenith391 & Co.", "0.92"}
-geeko.log = function(name, level, text)
-	gpu.drawText(1, 1, name .. " [" .. level .. "] " .. text)
-end
 
 local function render()
 	gpu.setColor(0x000000)
@@ -34,25 +31,17 @@ local function render()
 	for _, obj in pairs(geeko.objects) do
 		local ox, oy = obj.x + xOffset, obj.y + yOffset
 		if oy > 3 - obj.height and ox < width and oy < height then
-			if obj.type == "text" then
-				if fore ~= 0xFFFFFF then
-					gpu.setForeground(0xFFFFFF)
-					fore = 0xFFFFFF
-				end
-				gpu.drawText(ox, oy, obj.text)
+			if obj.bgcolor and obj.bgcolor ~= -1 then
+				gpu.fill(1, 1, obj.width, obj.height, obj.bgcolor)
 			end
-			if obj.type == "hyperlink" then
-				if obj.trigerred then
-					if fore ~= 0x2020AA then
-						gpu.setForeground(0x2020AA)
-						fore = 0x2020AA
-					end
-				else
-					if fore ~= 0x2020FF then
-						gpu.setForeground(0x2020FF)
-						fore = 0x2020FF
-					end
+
+			if obj.color then
+				if fore ~= obj.color then
+					gpu.setForeground(obj.color)
+					fore = obj.color
 				end
+			end
+			if obj.type == "text" or obj.type == "hyperlink" then
 				gpu.drawText(ox, oy, obj.text)
 			end
 			if obj.type == "canvas" then
@@ -92,6 +81,25 @@ local function render()
 				end
 			end
 		end
+	end
+
+	if consoleOpened then
+		gpu.fill(1, height-10, width, 10, 0x2D2D2D)
+		gpu.setForeground(0xFFFFFF)
+		for k, l in ipairs(console) do
+			gpu.drawText(2, height-11+k, l)
+		end
+	end
+end
+
+geeko.browser = {"Minescape", "zenith391", "0.9.3"}
+geeko.log = function(name, level, text)
+	table.insert(console, name .. " [" .. level:upper() .. "] " .. text)
+	if #console > 10 then
+		table.remove(console, 1)
+	end
+	if consoleOpened then
+		geeko.renderCallback()
 	end
 end
 
@@ -141,6 +149,12 @@ while true do
 					obj.drawHandler = nil
 				end
 			end
+			geeko.renderCallback()
+		end
+	end
+	if id == "key_up" then
+		if string.char(b) == "k" then
+			consoleOpened = not consoleOpened
 			geeko.renderCallback()
 		end
 	end

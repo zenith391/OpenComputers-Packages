@@ -85,26 +85,26 @@
 		files = {
 			["minescape/geeko.lua"] = "{userpath}/Libraries/geeko.lua"
 		},
-		dependencides = {},
-		name = "MineScape Internet Navigator",
-		description = "For now this only allow you to access OFFLINE .ohml files. With hyperlink support (OHML 1.0.1). Supports LuaWeb script",
+		dependencies = {},
+		name = "Geeko",
+		description = "Multi-platform (Fuchas + OpenOS + ComputerCraft) OHML web engine.",
 		authors = "zenith391",
-		version = "0.92",
-		revision = 4
+		version = "0.2.1",
+		revision = 5
 	},
 	["minescape"] = {
 		files = {
-			["minescape/minescape.lua"] = "{userpath}/Binaries/minescape.lua",
-			["minescape/geeko.lua"] = "{userpath}/Libraries/geeko.lua"
+			["minescape/minescape.lua"] = "{userpath}/Binaries/minescape.lua"
 		},
 		dependencies = {
-			["fuchas"] = "0.5.*"
+			["fuchas"] = "0.5.*",
+			["1"] = "geeko"
 		},
 		name = "MineScape OCranet Navigator",
 		description = "For now this only allow you to access OFFLINE .ohml files. With hyperlink support (OHML 1.0.1). Supports LuaWeb script",
 		authors = "zenith391",
-		version = "0.92",
-		revision = 4
+		version = "0.9.3",
+		revision = 5
 	},
 	["stardust"] = {
 		files = {
@@ -114,7 +114,7 @@
 			["fuchas"] = "0.5.*"
 		},
 		name = "Stardust",
-		description = "Compatibility layer between OpenOS and Fuchas programs",
+		description = "Compatibility layer between OpenOS programs and Fuchas",
 		authors = "zenith391",
 		version = "0.0.1",
 		revision = 0

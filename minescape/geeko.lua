@@ -1,11 +1,12 @@
 -- Geeko OHML Engine v1.0
 -- OHML v1.0.1 compliant engine
--- Partially compatible with OHML v1.0.2 
+-- Partially compatible with OHML v1.0.2 (Positioning)
+-- Compatible with Styling (OHML v1.0.3)
 
 local geeko = {
 	-- The OS-independent filesystem API
 	fs = nil,
-	version = "0.2",
+	version = "0.2.1", -- Geeko version
 	browser = {"Unknown (name)", "Unknown (publisher or developer)", "1.0"},
 	thread = nil,
 	renderCallback = nil,
@@ -34,13 +35,21 @@ local function fsLuaIO()
 	}
 end
 
+-- Filesystem wrapper for Fuchas and OpenOS
+local function fuchasIO()
+	local wrapper = fsLuaIO() -- supports standard Lua I/O
+	wrapper.parent = function(path)
+		return require("filesystem").path(path)
+	end
+	return wrapper
+end
+
 local function ccIO() -- yup, Geeko supports ComputerCraft alongside OpenComputers
-	return {
-		readAll = fsLuaIO().readAll, -- same use of standard io library
-		parent = function(path)
-			return fs.getDir(path)
-		end
-	}
+	local wrapper = fsLuaIO() -- supports standard Lua I/O
+	wrapper.parent = function(path)
+		return fs.getDir(path)
+	end
+	return wrapper
 end
 
 local function objectWrapper(obj)
@@ -74,14 +83,15 @@ end
 
 local function log(name, level, text)
 	if geeko.log ~= nil and type(geeko.log) == "function" then
-		geeko.log(name, level, tostring(text))
+		geeko.log(name, level, text)
 	end
 end
 
 local function makeScriptEnv()
 	geeko.scriptEnv = {
 		_G = geeko.scriptEnv,
-		sleep = os.sleep,
+		_ENV = geeko.scriptEnv,
+		wait = os.sleep,
 		navigator = {
 			appName = geeko.browser[1],
 			appCreator = geeko.browser[2],
@@ -157,6 +167,21 @@ local function loadScripts(tag)
 	end
 end
 
+local function getFirstAttribute(tag, name)
+	if not tag or not tag.attr then
+		return nil
+	end
+	if tag.attr[name] then
+		return tag.attr[name]
+	else
+		if tag.parent then
+			return getFirstAttribute(tag.parent, name)
+		else
+			return nil
+		end
+	end
+end
+
 function geeko.read(tag)
 	for _, v in pairs(tag.childrens) do
 		if v.attr.x then
@@ -170,7 +195,7 @@ function geeko.read(tag)
 				cx = 1
 				cy = cy + 1
 			end
-			if v.parent.name == "a" then
+			if v.parent.name == "link" then
 				table.insert(geeko.objects, {
 					type = "hyperlink",
 					x = cx,
@@ -179,10 +204,27 @@ function geeko.read(tag)
 					height = 1,
 					text = v.content,
 					hyperlink = v.parent.attr.href,
-					tag = v.parent
+					tag = v.parent,
+					color = tonumber(getFirstAttribute(v.parent, "color") or "2020FF", 16),
+					bgcolor = tonumber(getFirstAttribute(v.parent, "bgcolor") or "-1", 16)
 				})
 			elseif v.parent.name == "script" then
 				-- handled by loadScripts
+			elseif v.parent.name == "notavailable" then
+				if v.parent.attr.feature == "Lua 5.3" then
+					if _VERSION == "Lua 5.2" then -- only show if on Lua 5.3
+						table.insert(geeko.objects, {
+							type = "text",
+							x = cx,
+							y = cy,
+							width = v.content:len(),
+							height = 1,
+							text = v.content,
+							color = tonumber(getFirstAttribute(v.parent, "color") or "FFFFFF", 16),
+							bgcolor = tonumber(getFirstAttribute(v.parent, "bgcolor") or "-1", 16)
+						})
+					end
+				end
 			else
 				table.insert(geeko.objects, {
 					type = "text",
@@ -190,7 +232,9 @@ function geeko.read(tag)
 					y = cy,
 					width = v.content:len(),
 					height = 1,
-					text = v.content
+					text = v.content,
+					color = tonumber(getFirstAttribute(v.parent, "color") or "FFFFFF", 16),
+					bgcolor = tonumber(getFirstAttribute(v.parent, "bgcolor") or "-1", 16)
 				})
 			end
 			cx = cx + v.content:len()
@@ -253,7 +297,7 @@ function geeko.go(link)
 		text = geeko.fs.readAll(geeko.url(geeko.currentPath).path:sub(2))
 	end
 
-	parsed = require("xml").parse(text) -- wouldn't work on CC, to fix
+	parsed = require("xml").parse(text) -- only works on Fuchas, to fix
 	cx = 1
 	cy = 1
 	geeko.objects = {}
@@ -265,14 +309,13 @@ function geeko.go(link)
 		log("geeko", "warn", "render callback is not defined")
 	end
 	loadScripts(parsed)
+	log("geeko", "info", "loaded " .. geeko.currentPath)
 end
 
 -- OS init
-if _OSDATA then -- Fuchas
-	geeko.fs = fsLuaIO()
-elseif _OSVERSION then -- OpenOS
-	geeko.fs = fsLuaIO()
-elseif rednet then
+if _OSDATA or _OSVERSION then -- Fuchas or OpenOS
+	geeko.fs = fuchasIO()
+elseif rednet then -- ComputerCraft
 	geeko.fs = ccIO()
 end
 

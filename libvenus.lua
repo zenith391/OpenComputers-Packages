@@ -3,7 +3,7 @@ local lib = {}
 local filesystem = require("filesystem")
 
 function lib.newKey()
-	local key = string.format("%x", math.floor(math.random() * 999999999999)) -- max 12 len
+	local key = string.format("%x", math.floor(math.random() * 0xFFFFFFFFFFFFFFFF)) -- max 12 len
 	if key:len() < 12 then
 		key = key .. string.rep("0", 12-key:len())
 	end
