@@ -103,7 +103,7 @@
 		os = {
 			["OpenOS"] = {
 				files = {
-					["minescape/minescape_openos.lua"] = "{bin}/minescape.lua"
+					["minescape/minescape-openos.lua"] = "{bin}/minescape.lua"
 				}
 			}
 		},
