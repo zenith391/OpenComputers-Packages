@@ -304,6 +304,15 @@ function geeko.url(link)
 	}
 end
 
+
+local function toCharArray(str)
+	local t = {}
+	for i=1, #str do
+		table.insert(t, str:sub(i, i))
+	end
+	return t
+end
+
 --- Tags are tables as follow:
 ---   name: Name
 ---   attr: Attributes
@@ -311,7 +320,7 @@ end
 ---   childrens: Childrens
 --- What this function return is a root tag (just a tag with no name, no attribute and no parent, that have all tags (not nested ones) as childrens)
 function geeko.parseXML(str)
-	local chars = string.toCharArray(str)
+	local chars = toCharArray(str)
     local line = 1
     local rootTag = {
 		name = nil,

@@ -6,7 +6,7 @@ package.loaded["xml"] = nil
 local shell = require("shell")
 local event = require("event")
 local geeko = require("geeko")
-local gpu = require("component").geeko
+local gpu = require("component").gpu
 local width, height = gpu.getResolution()
 local args, options = shell.parse(...)
 local console = {}
@@ -18,15 +18,13 @@ if not args[1] then
 	args[1] = "file:////www/index.ohml"
 end
 
-local currentPath = args[1]
-
 local function render()
 	gpu.setBackground(0x000000)
 	gpu.setForeground(0xFFFFFF)
 	local fore = 0xFFFFFF
-	gpu.fill(1, 1, width, height)
+	gpu.fill(1, 1, width, height, " ")
 	gpu.set(width/2-4, 1, "MineScape")
-	gpu.set(math.floor(width/2-(currentPath:len()/2)), 2, currentPath)
+	gpu.set(math.floor(width/2-(geeko.currentPath:len()/2)), 2, geeko.currentPath)
 	gpu.set(1, height, "Ctrl+C: Exit")
 	gpu.set(14, height, "| Ctrl+T: Change URL")
 	for _, obj in pairs(geeko.objects) do
@@ -85,7 +83,8 @@ local function render()
 	end
 
 	if consoleOpened then
-		gpu.fill(1, height-10, width, 10, 0x2D2D2D, " ")
+		gpu.setBackground(0x2D2D2D)
+		gpu.fill(1, height-10, width, 10, " ")
 		gpu.setForeground(0xFFFFFF)
 		for k, l in ipairs(console) do
 			gpu.set(2, height-11+k, l)
