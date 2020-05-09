@@ -46,7 +46,7 @@
 			["epocha.lua"] = "{userpath}/Binaries/epocha.lua"
 		},
 		dependencies = {
-			fuchas = "0.5"
+			fuchas = "0.6.*"
 		},
 		name = "epocha",
 		description = "Epocha is an OHTP server. Use config to change network stack",
@@ -83,22 +83,29 @@
 	},
 	["geeko"] = {
 		files = {
-			["minescape/geeko.lua"] = "{userpath}/Libraries/geeko.lua"
+			["minescape/geeko.lua"] = "{lib}/geeko.lua"
 		},
 		dependencies = {},
 		name = "Geeko",
 		description = "Multi-platform (Fuchas + OpenOS + ComputerCraft) OHML web engine.",
 		authors = "zenith391",
-		version = "0.2.1",
-		revision = 5
+		version = "0.2.2",
+		revision = 6
 	},
 	["minescape"] = {
 		files = {
-			["minescape/minescape.lua"] = "{userpath}/Binaries/minescape.lua"
+			["minescape/minescape.lua"] = "{bin}/minescape.lua"
 		},
 		dependencies = {
-			["fuchas"] = "0.5.*",
-			["1"] = "geeko"
+			["fuchas"] = "0.6.*",
+			[1] = "geeko"
+		},
+		os = {
+			["OpenOS"] = {
+				files = {
+					["minescape/minescape_openos.lua"] = "{bin}/minescape.lua"
+				}
+			}
 		},
 		name = "MineScape OCranet Navigator",
 		description = "For now this only allow you to access OFFLINE .ohml files. With hyperlink support (OHML 1.0.1). Supports LuaWeb script",
@@ -111,7 +118,7 @@
 			["stardust/stardust.lua"] = "{userpath}/Binaries/stardust.lua"
 		},
 		dependencies = {
-			["fuchas"] = "0.5.*"
+			["fuchas"] = "0.6.*"
 		},
 		name = "Stardust",
 		description = "Compatibility layer between OpenOS programs and Fuchas",
