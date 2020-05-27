@@ -283,7 +283,7 @@ function geeko.read(tag)
 			geeko.read(v)
 			if v.name == "text" or v.name == "h1" or v.name == "h2" or v.name == "h3" or v.name == "h4" or v.name == "h5" then
 				cx = 1
-				cy = cy + 1
+				cy = cy + 2
 			end
 		end
 	end
@@ -377,6 +377,10 @@ function geeko.parseXML(str)
 					_te = false
 				else
 					if _tap ~= "" then
+						local f, err = load("return " .. _tav)
+						if not f then
+							error(err)
+						end
 						_ta[_tap] = load("return " .. _tav)() -- value conversion, insecure
 						_tap = ""
 						_tav = ""
@@ -392,6 +396,10 @@ function geeko.parseXML(str)
 				end
 			elseif ch == ' ' and not _te then
 				if _tap ~= "" then
+					local f, err = load("return " .. _tav)
+					if not f then
+						error(err)
+					end
 					_ta[_tap] = load("return " .. _tav)() -- value conversion, insecure
 				end
 				_tap = ""
