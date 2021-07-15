@@ -31,7 +31,7 @@ local function fsLuaIO()
 			return text
 		end,
 		parent = function(path)
-			return require("filesystem").path(path)
+			error("unimplemented")
 		end
 	}
 end
@@ -506,9 +506,9 @@ function geeko.go(link)
 end
 
 -- OS init
-if _OSDATA or _OSVERSION then -- Fuchas or OpenOS
+if OSDATA or _OSVERSION then -- Fuchas or OpenOS
 	geeko.fs = fuchasIO()
-	if _OSDATA then
+	if OSDATA then
 		geeko.mt = fuchasMT()
 	else
 		geeko.mt = openOSMT()

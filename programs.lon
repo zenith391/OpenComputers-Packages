@@ -25,7 +25,7 @@
 		},
 		dependencies = {},
 		name = "uncpio",
-		description = "AdorableCatgirl uncpio ported to Fuchas",
+		description = "AdorableCatgirl uncpio ported to Fuchas; /!\\ Replaced by the bundled `cpio` command in Fuchas",
 		authors = "AdorableCatgirl, zenith391",
 		version = "1.1",
 		revision = 6
@@ -97,7 +97,7 @@
 			["minescape/minescape.lua"] = "{bin}/minescape.lua"
 		},
 		dependencies = {
-			["fuchas"] = "0.6.*",
+			["fuchas"] = "0.7.*",
 			[1] = "geeko"
 		},
 		os = {
@@ -124,6 +124,36 @@
 		description = "Compatibility layer between OpenOS programs and Fuchas",
 		authors = "zenith391",
 		version = "0.0.1",
+		revision = 0
+	},
+	["mario"] = {
+		files = {
+			["mario/mario.lua"] = "{userpath}/Binaries/mario.lua",
+			["mario/levels/level1.json"] = "{userpath}/Binaries/levels/level1.json",
+			["mario/lib/json.lua"] = "{userpath}/Binaries/lib/json.lua",
+			["mario/music/song-mario.aaf"] = "{userpath}/Binaries/music/song.aaf",
+			["mario/img/block.bmp"] = "{userpath}/Binaries/img/block.bmp",
+			["mario/img/ground.bmp"] = "{userpath}/Binaries/img/ground.bmp",
+			["mario/img/hard.bmp"] = "{userpath}/Binaries/img/hard.bmp",
+			["mario/img/mystery.bmp"] = "{userpath}/Binaries/img/mystery.bmp",
+			["mario/img/mystery_used.bmp"] = "{userpath}/Binaries/img/mystery_used.bmp",
+			["mario/img/pipe_1.bmp"] = "{userpath}/Binaries/img/pipe_1.bmp",
+			["mario/img/pipe_2.bmp"] = "{userpath}/Binaries/img/pipe_2.bmp",
+			["mario/img/pipe_3.bmp"] = "{userpath}/Binaries/img/pipe_3.bmp",
+			["mario/img/pipe_4.bmp"] = "{userpath}/Binaries/img/pipe_4.bmp",
+			["mario/img/mario/stand_0.bmp"] = "{userpath}/Binaries/img/mario/stand_0.bmp",
+			["mario/img/mario/jump_0.bmp"] = "{userpath}/Binaries/img/mario/jump_0.bmp",
+			["mario/img/mario/walk_0.bmp"] = "{userpath}/Binaries/img/mario/walk_0.bmp",
+			["mario/img/mario/walk_1.bmp"] = "{userpath}/Binaries/img/mario/walk_1.bmp",
+			["mario/img/mario/walk_2.bmp"] = "{userpath}/Binaries/img/mario/walk_2.bmp"
+		},
+		dependencies = {
+
+		},
+		name = "Mario",
+		description = "Super Mario Bros. inside OpenComputers!",
+		authors = "zenith391",
+		version = "0.1.0",
 		revision = 0
 	}
 }
