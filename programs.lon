@@ -155,5 +155,18 @@
 		authors = "zenith391",
 		version = "0.1.0",
 		revision = 0
+	},
+	["iview"] = {
+		files = {
+			["iview.lua"] = "{userpath}/Binaries/iview.lua"
+		},
+		dependencies = {
+
+		},
+		name = "Image Viewer",
+		description = "This can visualise BMP images using various techniques such as dithering and palette editing",
+		authors = "zenith391",
+		version = "1.0.0",
+		revision = 0
 	}
 }
