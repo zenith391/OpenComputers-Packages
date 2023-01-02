@@ -131,7 +131,7 @@
 			["mario/Goomba.lua"] =  "{userpath}/Binaries/mario/Goomba.lua",
 			["mario/levels/level1.json"] = "{userpath}/Binaries/mario/levels/level1.json",
 			["mario/lib/json.lua"] = "{userpath}/Binaries/mario/lib/json.lua",
-			["mario/music/song-mario.aaf"] = "{userpath}/Binaries/mario/music/song.aaf",
+			["mario/music/song-mario.aaf"] = "{userpath}/Binaries/mario/music/song-mario.aaf",
 			["mario/img/block.bmp"] = "{userpath}/Binaries/mario/img/block.bmp",
 			["mario/img/ground.bmp"] = "{userpath}/Binaries/mario/img/ground.bmp",
 			["mario/img/hard.bmp"] = "{userpath}/Binaries/mario/img/hard.bmp",
@@ -159,7 +159,7 @@
 		name = "Mario",
 		description = "Super Mario Bros. inside OpenComputers!",
 		authors = "zenith391",
-		version = "0.1.1",
+		version = "0.1.2",
 		revision = 0
 	},
 	["iview"] = {
