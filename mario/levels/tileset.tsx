@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.5" tiledversion="1.5.0" name="ocmario" tilewidth="16" tileheight="16" tilecount="9" columns="0">
+<tileset version="1.5" tiledversion="1.5.0" name="ocmario" tilewidth="16" tileheight="16" tilecount="13" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image width="16" height="16" source="../img/block.bmp"/>
@@ -27,5 +27,17 @@
  </tile>
  <tile id="8">
   <image width="16" height="16" source="../img/pipe_4.bmp"/>
+ </tile>
+ <tile id="9">
+  <image width="16" height="16" source="../img/goomba_0.bmp"/>
+ </tile>
+ <tile id="10">
+  <image width="16" height="16" source="../img/flag_pole_mid.bmp"/>
+ </tile>
+ <tile id="11">
+  <image width="16" height="16" source="../img/flag_pole_top.bmp"/>
+ </tile>
+ <tile id="12">
+  <image width="16" height="16" source="../img/flag.bmp"/>
  </tile>
 </tileset>

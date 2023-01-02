@@ -737,7 +737,7 @@ while true do
 	end
 	
 	if computer.uptime() - lastUptime > 0.05 then
-		--os.sleep(0.05)
+		os.sleep(0.05)
 		lastUptime = computer.uptime()
 	end
 end
