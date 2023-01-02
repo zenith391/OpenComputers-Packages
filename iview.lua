@@ -161,7 +161,14 @@ local function process(image)
 		if a.r < 0 then a.r = 0 end
 		if a.g < 0 then a.g = 0 end
 		if a.b < 0 then a.b = 0 end
-		return (a.r << 16) | (a.g << 8) | a.b
+		if a.r > 255 then a.r = 255 end
+		if a.g > 255 then a.g = 255 end
+		if a.b > 255 then a.b = 255 end
+		return (math.floor(a.r) << 16) | (math.floor(a.g) << 8) | math.floor(a.b)
+	end
+
+	local function toString(a)
+		return string.format("0x%x 0x%x 0x%x", a.r, a.g, a.b)
 	end
 
 	local function add(a, b)
@@ -177,14 +184,14 @@ local function process(image)
 	end
 
 	for x=1, image.width do
-		for y=1, image.height do
+		--for y=1, image.height do
 			if not carriedError[x] then carriedError[x] = {} end
-		end
+		--end
 	end
 
 	local start = computer.uptime()
 	if opts["p"] or opts["change-palette"] then
-		local allColorsOccurances = {}
+		--[[local allColorsOccurances = {}
 		for y=1, image.height do
 			if computer.uptime() > start + 1 then -- avoid 'too long without yielding'
 				coroutine.yield()
@@ -201,10 +208,33 @@ local function process(image)
 		end
 		table.sort(allPalette, function(a, b)
 			return a.num < b.num
-		end)
+		end)--]]
+		local averages = {}
+		for i=1, gpu.getPalettedColors() do averages[i] = 0x000000 end
 
-		for i=1, math.min(#allPalette, gpu.getPalettedColors()) do
-			gpu.palette[i] = allPalette[i].rgb
+		for y=1, image.height do
+			if computer.uptime() > start + 1 then -- avoid 'too long without yielding'
+				coroutine.yield()
+				start = computer.uptime()
+			end
+			for x=1, image.width do
+				local rgb = image.pixels[x][y]
+				for i=1, gpu.getPalettedColors() do
+					-- the influence of the current pixel on the average
+					local t = 1 / (i^2)
+					local avg = fromRGB(averages[i])
+					avg = add(
+						mulScalar(avg, 1 - t),
+						mulScalar(fromRGB(rgb), t)
+					)
+					averages[i] = toRGB(avg)
+				end
+			end
+		end
+
+		for i=1, math.min(#averages, gpu.getPalettedColors()) do
+			--gpu.palette[i] = allPalette[i].rgb
+			gpu.palette[i] = averages[i]
 		end
 	end
 
@@ -223,11 +253,13 @@ local function process(image)
 			for dy=0, 3 do
 				for dx=0, 1 do
 					local rgb = image.pixels[x+dx][y+dy]
+					--local error = carriedError[x+dx][y+dy] or {r=0,g=0,b=0}
+					--rgb = toRGB(add(fromRGB(rgb), error))
 
 					if opts["advanced-dithering"] then
 						local error = carriedError[x+dx][y+dy] or {r=0,g=0,b=0}
 						rgb = fromRGB(rgb)
-						rgb = sub(rgb, error)
+						rgb = add(rgb, error)
 
 						local closest = 0
 						local closestDist = math.huge
@@ -248,10 +280,10 @@ local function process(image)
 				table.insert(sortedColors, { rgb = rgb, num = num })
 			end
 			table.sort(sortedColors, function(a, b)
-				return a.num < b.num
+				return a.num > b.num
 			end)
-			local mostCommonColor = sortedColors[#sortedColors].rgb
-			local secondMostCommonColor = (sortedColors[#sortedColors-1] or sortedColors[#sortedColors]).rgb
+			local mostCommonColor = sortedColors[1].rgb
+			local secondMostCommonColor = (sortedColors[2] or sortedColors[1]).rgb
 
 			if opts["monochrome"] then
 				mostCommonColor = 0x000000
@@ -265,17 +297,18 @@ local function process(image)
 				for dx=0, 1 do
 					local rgb = fromRGB(image.pixels[x+dx][y+dy])
 					local error = carriedError[x+dx][y+dy] or { r = 0, g = 0, b = 0 }
-					rgb = sub(rgb, error)
+					rgb = add(rgb, error)
 					--carriedError[x+dx][y+dx] = nil -- remove when unused
 					local pos = dx + dy * 2 + 1
 					local pixelError = 0
 					if distance(rgb, mostCommonColor) < distance(rgb, secondMostCommonColor) then
 						usedColors[pos] = 1 -- foreground == mostCommonColor
-						pixelError = sub(mostCommonColor, rgb)
+						pixelError = sub(rgb, mostCommonColor)
 					else
 						usedColors[pos] = 0 -- background == secondMostCommonColor
-						pixelError = sub(secondMostCommonColor, rgb)
+						pixelError = sub(rgb, secondMostCommonColor)
 					end
+					pixelError = mulScalar(pixelError, 1/2)
 
 					if opts["dithering"] == "floyd-steinberg" then
 						if carriedError[x+dx+1] then -- right
@@ -290,12 +323,12 @@ local function process(image)
 
 						if carriedError[x+dx-1] then -- down left
 							if not carriedError[x+dx-1][y+dy+1] then carriedError[x+dx-1][y+dy+1] = { r = 0, g = 0, b = 0 } end
-							carriedError[x+dx-1][y+dy+1] = add(carriedError[x+dx-1][y+dy+1], mulScalar(pixelError, 5/16))
+							carriedError[x+dx-1][y+dy+1] = add(carriedError[x+dx-1][y+dy+1], mulScalar(pixelError, 3/16))
 						end
 
 						if carriedError[x+dx][y+dy+1] then -- down
 							if not carriedError[x+dx][y+dy+1] then carriedError[x+dx][y+dy+1] = { r = 0, g = 0, b = 0 } end
-							carriedError[x+dx][y+dy+1] = add(carriedError[x+dx][y+dy+1], mulScalar(pixelError, 3/16))
+							carriedError[x+dx][y+dy+1] = add(carriedError[x+dx][y+dy+1], mulScalar(pixelError, 5/16))
 						end
 					elseif opts["dithering"] == "basic" then
 						if carriedError[x+dx+1] and carriedError[x+dx+1][y+dy] then -- right
@@ -315,6 +348,8 @@ local function process(image)
 			}
 		end
 	end
+
+	--error("carried error[1][1] = " .. toString(carriedError[10][10]))
 
 	chars.width = image.width // 2
 	chars.height = image.height // 4

@@ -59,7 +59,7 @@
 			["libvenus.lua"] = "{userpath}/Libraries/libvenus.lua"
 		},
 		dependencies = {
-			fuchas = "0.4"
+		
 		},
 		name = "libvenus",
 		description = "Library to manage Venus (VCS) objects and directories.",
@@ -73,7 +73,6 @@
 		},
 		dependencies = {
 			"libvenus",
-			fuchas = "0.4"
 		},
 		name = "Venus",
 		description = "Simplified equivalent of Git for OC. (so not compatible with Git of course)",
@@ -118,7 +117,7 @@
 			["stardust/stardust.lua"] = "{userpath}/Binaries/stardust.lua"
 		},
 		dependencies = {
-			["fuchas"] = "0.6.*"
+			["fuchas"] = "0.7.*"
 		},
 		name = "Stardust",
 		description = "Compatibility layer between OpenOS programs and Fuchas",
