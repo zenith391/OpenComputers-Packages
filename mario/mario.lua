@@ -1,8 +1,15 @@
 local gpu = require("driver").gpu
 local sound = require("driver").sound
 local SKY_COLOR = 0x5c94fc
-local json = dofile("A:/Users/Shared/Binaries/lib/json.lua")
 local currentMusic = nil
+
+local PATH = "A:/Users/Shared/Binaries/mario/"
+local json = dofile(PATH .. "lib/json.lua")
+
+local wmContext
+if package.loaded.window then
+	wmContext = require("window").requestExclusiveContext()
+end
 
 -- a b
 -- c d
@@ -29,7 +36,7 @@ local function trailingZeroBits(bitmask)
 end
 
 local function readBMP(path)
-	local file = io.open("A:/Users/Shared/Binaries/img/" .. path, "r")
+	local file = io.open(PATH .. "img/" .. path, "r")
 
 	file:read(10) -- skip over unused data
 	local pixelStart = string.unpack("<I4", file:read(4))
@@ -235,15 +242,20 @@ local tileset = {
 	"pipe_1",
 	"pipe_2",
 	"pipe_3",
-	"pipe_4"
+	"pipe_4",
+	"goomba_0", -- never actually used in level rendering as it is transformed into an entity
+	"flag_pole_mid",
+	"flag_pole_top",
+	"flag"
 }
 
 local level = {}
+local entities = {}
 local levelWidth
 local collidables = {}
 
 local function loadLevel(name)
-	local file = io.open("A:/Users/Shared/Binaries/levels/" .. name .. ".json", "r")
+	local file = io.open(PATH .. "levels/" .. name .. ".json", "r")
 	local text = file:read("*a")
 	file:close()
 
@@ -265,7 +277,19 @@ local function loadLevel(name)
 	for x=1, tiled.width do
 		for y=1, 13 do
 			local id = level[x][y]
-			if id ~= 0 then
+			if id == 10 then -- goomba
+				local entity = setmetatable({
+					sprite = "goomba_0",
+					x = (x-1) * 16 - 2,
+					y = (y-1) * 16 - 8,
+					vx = 0,
+					vy = 0
+				}, { __index = dofile(PATH .. "Goomba.lua") })
+				entity:init()
+				table.insert(entities, entity)
+
+				level[x][y] = 0
+			elseif id ~= 0 then
 				table.insert(collidables, {
 					x = (x-1) * 16 - 2,
 					y = (y-1) * 16 - 8,
@@ -287,7 +311,7 @@ end
 
 local function loadMusic(name)
 	if not sound.getCapabilities().asynchronous then return end
-	local file = io.open("A:/Users/Shared/Binaries/music/" .. name .. ".aaf", "r")
+	local file = io.open(PATH .. "music/" .. name .. ".aaf", "r")
 
 	file:read(5) -- skip signature
 	file:read(2) -- skip capability flags
@@ -325,7 +349,7 @@ local function loadMusic(name)
 
 	currentMusic = { notes = channelNotes, index = channelIdx, channelsNum = channelsNum, time = 0, lastFlush = 0 }
 end
-loadMusic("song")
+loadMusic("song-mario")
 
 local function drawTile(name, x, y)
 	local ox = x %  2
@@ -424,6 +448,40 @@ local function drawMario()
 	oldGY = gy
 end
 
+local sprites = {}
+local function drawEntity(entity)
+	local ox, oy = math.floor(entity.x - camX) %  2, math.floor(entity.y) %  4
+	local gx, gy = math.floor(entity.x - camX) // 2, math.floor(entity.y) // 4
+	if not entity.oldGX then
+		entity.oldGX = gx
+		entity.oldGY = gy
+	end
+	local dgx, dgy = gx - entity.oldGX, gy - entity.oldGY
+	if not sprites[entity.sprite] then
+		sprites[entity.sprite] = drawImageToBuf(entity.sprite .. ".bmp", ox, oy, SKY_COLOR)
+	end
+
+	-- character width
+	local w, h = 8, 4
+
+	if dgx > 0 then
+		drawScenery(entity.oldGX + 1, entity.oldGY + 1, dgx, h)
+	elseif dgx < 0 then
+		drawScenery(gx + w + 1, entity.oldGY + 1, -dgx, h)
+	end
+
+	if dgy > 0 then
+		drawScenery(gx + 1, gy + 1 - dgy, w, dgy)
+	elseif dgy < 0 then
+		drawScenery(gx + 1, gy + h + 1, w, -dgy)
+	end
+
+	gpu.blit(sprites[entity.sprite], gpu.screenBuffer(), gx + 1, gy + 1)
+
+	entity.oldGX = gx
+	entity.oldGY = gy
+end
+
 local oldCGX = -1
 local function redrawGround()
 	local cgx = camX // 2
@@ -463,6 +521,14 @@ local colliding = false
 local musicNoLoad = false
 
 local SPEED = 1.0
+
+table.insert(entities, {
+	sprite = "mario/stand_0",
+	x = px,
+	y = py,
+	vx = 0,
+	vy = 0
+})
 
 while true do
 	local name, addr, char, code = require("event").pull(0)
@@ -582,6 +648,56 @@ while true do
 		drawMario()
 	end
 
+	for k, entity in pairs(entities) do
+		if entity.x - camX > 0 and entity.x - camX < 320 then
+			entity.vy = entity.vy + 1
+			local oldX = entity.x
+			entity.x = entity.x + entity.vx
+			local pb = { x = entity.x, y = entity.y, w = 16, h = 16 }
+
+			local function collidesAABB(a,b)
+				return a.x+a.w > b.x and a.y+a.h > b.y and a.x < b.x+b.w and a.y < b.y+b.h
+			end
+
+			for _,col in pairs(collidables) do
+				local colb = { x = col.x, y = col.y, w = 16, h = 16 }
+				if collidesAABB(pb, colb) then
+					entity.x = oldX
+					if entity.onHorizontalCollision then
+						entity:onHorizontalCollision()
+					else
+						entity.vx = 0
+						entity.horizontalCollision = true
+					end
+					break
+				end
+			end
+
+			local oldY = entity.y
+			entity.y = entity.y + entity.vy
+
+			local pb = { x = entity.x, y = entity.y, w = 16, h = 16 }
+			for _,col in pairs(collidables) do
+				local colb = { x = col.x, y = col.y, w = 16, h = 16 }
+				if collidesAABB(pb, colb) then
+					entity.y = oldY
+					if entity.vy < 0 then
+						entity.y = colb.y + colb.h
+					else
+						entity.y = colb.y - colb.h
+					end
+					entity.vy = 0
+					break
+				end
+			end
+
+			if entity.update then
+				entity:update()
+			end
+			drawEntity(entity)
+		end
+	end
+
 	if currentMusic then
 		if not musicNoLoad then
 			local minDur = math.huge
@@ -621,7 +737,11 @@ while true do
 	end
 	
 	if computer.uptime() - lastUptime > 0.05 then
-		os.sleep(0.05)
+		--os.sleep(0.05)
 		lastUptime = computer.uptime()
 	end
+end
+
+if wmContext then
+	wmContext:release()
 end

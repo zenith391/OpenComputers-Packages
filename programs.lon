@@ -59,7 +59,7 @@
 			["libvenus.lua"] = "{userpath}/Libraries/libvenus.lua"
 		},
 		dependencies = {
-		
+
 		},
 		name = "libvenus",
 		description = "Library to manage Venus (VCS) objects and directories.",
@@ -72,7 +72,7 @@
 			["venus.lua"] = "{userpath}/Binaries/venus.lua"
 		},
 		dependencies = {
-			"libvenus",
+			[1] = "libvenus"
 		},
 		name = "Venus",
 		description = "Simplified equivalent of Git for OC. (so not compatible with Git of course)",
@@ -128,23 +128,30 @@
 	["mario"] = {
 		files = {
 			["mario/mario.lua"] = "{userpath}/Binaries/mario.lua",
-			["mario/levels/level1.json"] = "{userpath}/Binaries/levels/level1.json",
-			["mario/lib/json.lua"] = "{userpath}/Binaries/lib/json.lua",
-			["mario/music/song-mario.aaf"] = "{userpath}/Binaries/music/song.aaf",
-			["mario/img/block.bmp"] = "{userpath}/Binaries/img/block.bmp",
-			["mario/img/ground.bmp"] = "{userpath}/Binaries/img/ground.bmp",
-			["mario/img/hard.bmp"] = "{userpath}/Binaries/img/hard.bmp",
-			["mario/img/mystery.bmp"] = "{userpath}/Binaries/img/mystery.bmp",
-			["mario/img/mystery_used.bmp"] = "{userpath}/Binaries/img/mystery_used.bmp",
-			["mario/img/pipe_1.bmp"] = "{userpath}/Binaries/img/pipe_1.bmp",
-			["mario/img/pipe_2.bmp"] = "{userpath}/Binaries/img/pipe_2.bmp",
-			["mario/img/pipe_3.bmp"] = "{userpath}/Binaries/img/pipe_3.bmp",
-			["mario/img/pipe_4.bmp"] = "{userpath}/Binaries/img/pipe_4.bmp",
-			["mario/img/mario/stand_0.bmp"] = "{userpath}/Binaries/img/mario/stand_0.bmp",
-			["mario/img/mario/jump_0.bmp"] = "{userpath}/Binaries/img/mario/jump_0.bmp",
-			["mario/img/mario/walk_0.bmp"] = "{userpath}/Binaries/img/mario/walk_0.bmp",
-			["mario/img/mario/walk_1.bmp"] = "{userpath}/Binaries/img/mario/walk_1.bmp",
-			["mario/img/mario/walk_2.bmp"] = "{userpath}/Binaries/img/mario/walk_2.bmp"
+			["mario/Goomba.lua"] =  "{userpath}/Binaries/mario/Goomba.lua",
+			["mario/levels/level1.json"] = "{userpath}/Binaries/mario/levels/level1.json",
+			["mario/lib/json.lua"] = "{userpath}/Binaries/mario/lib/json.lua",
+			["mario/music/song-mario.aaf"] = "{userpath}/Binaries/mario/music/song.aaf",
+			["mario/img/block.bmp"] = "{userpath}/Binaries/mario/img/block.bmp",
+			["mario/img/ground.bmp"] = "{userpath}/Binaries/mario/img/ground.bmp",
+			["mario/img/hard.bmp"] = "{userpath}/Binaries/mario/img/hard.bmp",
+			["mario/img/mystery.bmp"] = "{userpath}/Binaries/mario/img/mystery.bmp",
+			["mario/img/mystery_used.bmp"] = "{userpath}/Binaries/mario/img/mystery_used.bmp",
+			["mario/img/pipe_1.bmp"] = "{userpath}/Binaries/mario/img/pipe_1.bmp",
+			["mario/img/pipe_2.bmp"] = "{userpath}/Binaries/mario/img/pipe_2.bmp",
+			["mario/img/pipe_3.bmp"] = "{userpath}/Binaries/mario/img/pipe_3.bmp",
+			["mario/img/pipe_4.bmp"] = "{userpath}/Binaries/mario/img/pipe_4.bmp",
+			["mario/img/goomba_0.bmp"] = "{userpath}/Binaries/mario/img/goomba_0.bmp",
+			["mario/img/goomba_1.bmp"] = "{userpath}/Binaries/mario/img/goomba_1.bmp",
+			["mario/img/goomba_stomped.bmp"] = "{userpath}/Binaries/mario/img/goomba_stomped.bmp",
+			["mario/img/flag_pole_mid.bmp"] = "{userpath}/Binaries/mario/img/flag_pole_mid.bmp",
+			["mario/img/flag_pole_top.bmp"] = "{userpath}/Binaries/mario/img/flag_pole_top.bmp",
+			["mario/img/flag.bmp"] = "{userpath}/Binaries/mario/img/flag.bmp",
+			["mario/img/mario/stand_0.bmp"] = "{userpath}/Binaries/mario/img/mario/stand_0.bmp",
+			["mario/img/mario/jump_0.bmp"] = "{userpath}/Binaries/mario/img/mario/jump_0.bmp",
+			["mario/img/mario/walk_0.bmp"] = "{userpath}/Binaries/mario/img/mario/walk_0.bmp",
+			["mario/img/mario/walk_1.bmp"] = "{userpath}/Binaries/mario/img/mario/walk_1.bmp",
+			["mario/img/mario/walk_2.bmp"] = "{userpath}/Binaries/mario/img/mario/walk_2.bmp"
 		},
 		dependencies = {
 
@@ -152,7 +159,7 @@
 		name = "Mario",
 		description = "Super Mario Bros. inside OpenComputers!",
 		authors = "zenith391",
-		version = "0.1.0",
+		version = "0.1.1",
 		revision = 0
 	},
 	["iview"] = {
